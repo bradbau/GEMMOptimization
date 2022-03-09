@@ -1,9 +1,9 @@
 //cache blocking
 #include "kernels.h"
 
-#define M_BLOCKING 2048
-#define N_BLOCKING 384
-#define K_BLOCKING 192
+#define M_BLOCKING 512
+#define N_BLOCKING 256
+#define K_BLOCKING 64
 
 #define KERNEL_15_fmadd_8x8 \
     "vbroadcastsd (%%r11), %%zmm9;"\

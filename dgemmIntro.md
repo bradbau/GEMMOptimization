@@ -46,15 +46,30 @@ http://jianyuhuang.com/papers/sc16.pdf
 ijk/ikj, jik/jki, kij/kji have different 
 
 cache size of object machine intel 4216 Xeon processor is L1 - 1 MB, L2 - 16 MB, L3 - 22 MB。
-So L1 cache can store 4096 fp64 data, L2 cache can store 65536 fp64 data, L3 cache can store 90112 fp64 data.
+So L1 cache can store 16384 (2^17) fp64 data, L2 cache can store 262144 (2^21) fp64 data, L3 cache can store 90112 (11*2^18) fp64 data.
 
 L1-32k, L2-1024k, L3-22528k.
+Then  L1 can store 4096 (2^12) fp64 data, L2 can store 131072 (2^17)fp64 data, L3 can store 2883584 fp64 data.
 
-In the process of calculating, the innermost loop would maintain a block of one matrix and keep substituting blocks from two matrix. All three blocks should be kept in L1 cache. One block of A occupys m_block*k_block, so as the other two matrixes.
+In the process of calculating, the innermost loop would maintain a block of one matrix and keep substituting blocks from two matrix. All three blocks should be kept in L1 cache. One block of A occupys m_block*k_block, so as the other two matrixes.  
 
 
 **question:** Is there a difference for the loop sequence in blocking? Like the difference in keep block of A, B, or C in L1 cache for longest time?
  
+Currently, the sequence of mnk is best. 
+
+![](\data\fig\perfComp_12_13_14.png)
+
+
+**The improvment brought by cache blocking**
+
+![](\data\fig\perfComp_10_15.png)
+
+
+Compared with mkl
+
+![](\data\fig\perfComp_0_15.png)
+
 
 
 ### inline asm
@@ -100,7 +115,11 @@ The above code is corresponding to part of asm code from line 17 to 24 in kernel
 
 In this case, we can manually improve the situation by inline asm.
 
+
+![](\data\fig\perfComp_13_15.png)
+
 - hierarchical address load 
+How to minimize the calculation used for address.
 
 
 ## misc
